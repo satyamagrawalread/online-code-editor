@@ -1,0 +1,251 @@
+.homePageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  height: 100vh;
+}
+.homePageLogo{
+  width: 100px;
+  height: 60px;
+  max-width: 50%;
+  margin-bottom: 30px;
+}
+
+.formWrapper {
+  background-color: #282a36;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+}
+
+footer a {
+  color: #4aee88;
+  text-decoration: underline;
+  transition: all 0.3s ease-in-out;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainLabel {
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.inputBox {
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  margin-bottom: 14px;
+  background-color: #eee;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.btn {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.joinBtn, .leaveBtn {
+  background-color: #4aed88;
+  width: 100px;
+  margin-left: auto;
+}
+
+
+.joinBtn:hover {
+  background-color: #2b824c;
+}
+
+.createInfo {
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.createNewBtn {
+  color: #4aed88;
+  border-bottom: 1px solid #4aed88;
+  transition: all 0.3s ease-in-out;
+}
+
+.createNewBtn:hover,
+ footer a:hover {
+  color: #2b824c;
+  border-color: #2b824c;
+}
+
+.mainWrap {
+  display: grid;
+  grid-template-columns: 230px 1fr;  /* 1fr -> takes remaining space */
+  /* height: calc(100vh - 30px); */
+  height: 100%;
+}
+
+.aside {
+  
+  background-color: #1c1e29;
+  padding: 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.asideInner {
+  flex: 1;
+}
+
+.clientsList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.client {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-weight: bold;
+  gap: 10px;
+}
+
+.userName {
+  width: 85px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.logo {
+  border-bottom: 1px solid #424242;
+  padding-bottom: 10px;
+}
+
+.logoImage {
+  width: 100px;
+  height: 60px;
+}
+.copyBtn {
+  font-weight: bold;
+}
+
+.leaveBtn {
+  margin-top: 20px;
+  width: 100%;
+  font-weight: bold;
+}
+
+.leaveBtn:hover {
+  background-color: #2b824c;
+}
+
+
+#xml-realTimeEditor, #css-realTimeEditor, #javascript-realTimeEditor, .CodeMirror {
+  /* min-height: calc(100vh - 20px); */
+  min-height: calc(70vh - 60px);
+  min-width: 100%;
+  font-size: 20px;
+  line-height: 1.6;
+  /* padding-top: 20px; */
+}
+.editorWrap {
+  display: flex;
+  flex-direction: column;
+}
+.xml {
+  flex-grow: 1;
+}
+
+.css {
+  flex-grow: 1;
+}
+
+.javascript {
+  flex-grow: 1;
+}
+
+.inputWrap {
+  display: flex;
+  flex-direction: row;
+  /* height: 70vh; */
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.outputWrap {
+  background-color: white;
+  height: 30vh;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* #root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
