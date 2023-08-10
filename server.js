@@ -2,8 +2,14 @@ import ACTIONS from './src/Actions.js';
 import express from 'express';
 // import cors from 'cors';
 import http from 'http';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { Server } from 'socket.io';
 // import ACTIONS from './src/actions';
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
 
 const app = express();
 // app.use(cors());
@@ -13,14 +19,19 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: "http://127.0.0.1:5173"
+        // origin: "http://127.0.0.1:5173"
     }
 });
+
+app.use(express.static('dist'));
+app.use((req, res, next) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+})
 
 const userSocketMap = {}
 
 function getAllConnectedClients(roomId) {
-    console.log(io.sockets.adapter.rooms.get(roomId));
+    // console.log(io.sockets.adapter.rooms.get(roomId));
     return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map((socketId) => {
         return {
             socketId,
@@ -46,7 +57,7 @@ io.on('connection', socket => {
         })
     });
     socket.on(ACTIONS.CODE_CHANGE, ({mode, code, roomId}) => {
-        console.log('line49', mode, code, roomId)
+        // console.log('line49', mode, code, roomId)
         socket.in(roomId).emit(ACTIONS.CODE_CHANGE, {
             socketId: socket.id,
             mode,
@@ -54,7 +65,7 @@ io.on('connection', socket => {
         });
     })
     socket.on(ACTIONS.SYNC_CODE, ({mode, code, socketId}) => {
-        console.log(mode, code);
+        // console.log(mode, code);
         io.to(socketId).emit(ACTIONS.CODE_CHANGE, {
             socketId,
             mode,

@@ -14,11 +14,7 @@ import { Javascript } from '@mui/icons-material';
 function EditorPage() {
     const socketRef = useRef(null);
     const location = useLocation();
-    const codeRef = useRef({
-        xml: null,
-        css: null,
-        javascript: null,
-    });
+    const codeRef = useRef({});
     const reactNavigator = useNavigate();
     const {roomId} = useParams();
     const [clients, setClients] = useState([]);
@@ -55,7 +51,7 @@ function EditorPage() {
                 console.log('line 48', clients);
                 setClients(clients);
                 socketRef.current.emit(ACTIONS.SYNC_CODE, {
-                    mode: 'html',
+                    mode: 'xml',
                     code: codeRef.current['xml'],
                     socketId,
                 });

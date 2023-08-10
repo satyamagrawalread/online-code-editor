@@ -63,6 +63,7 @@ function Editor({ mode, socketRef, roomId, onCodeChange }) {
 
     return (
         <div className={mode}>
+            <div className={`editorHeading-${mode}`}>{mode}</div>
             <textarea id={`${mode}-realTimeEditor`}></textarea>
         </div>
     )
