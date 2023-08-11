@@ -17,12 +17,12 @@ function EditorPage() {
     const codeRef = useRef({});
     const reactNavigator = useNavigate();
     const {roomId} = useParams();
-    const [clients, setClients] = useState([]);
+    const [clients, setClients] = useState(null);
     const [srcCode, setSrcCode] = useState('');
 
     useEffect(() => {
         const backend_url = import.meta.env.VITE_APP_BACKEND_URL;
-        console.log(backend_url)
+        // console.log(backend_url)
         const init = async () => {
             socketRef.current = await initSocket(backend_url);
             // console.log('SocketRef', socketRef.current);
@@ -48,8 +48,9 @@ function EditorPage() {
                 else {
                     toast.success(`${username} joined the room`);
                 }
-                console.log('line 48', clients);
+                // console.log('line 51', clients);
                 setClients(clients);
+                
                 socketRef.current.emit(ACTIONS.SYNC_CODE, {
                     mode: 'xml',
                     code: codeRef.current['xml'],
@@ -82,6 +83,9 @@ function EditorPage() {
             socketRef.current.off(ACTIONS.DISCONNECTED);
         }
     }, [])
+    // useEffect(() => {
+    //     console.log('line 86', clients);
+    // }, [clients])
 
     const copyRoomId = async() => {
         try {
@@ -109,7 +113,7 @@ function EditorPage() {
     }
     const onCodeChange = (mode, code) => {
         codeRef.current[mode] = code;
-        console.log('line102', codeRef.current);
+        // console.log('line102', codeRef.current);
         runCode();
     }
 
@@ -132,8 +136,8 @@ function EditorPage() {
                         </div>
                         <h3>Connected</h3>
                         <div className="clientsList">
-                            {clients.map((client) => {
-                                console.log('client socketId', client.sockedId);
+                            {clients && clients.map((client) => {
+                                // console.log('client socketId', client.socketId);
                                 return (
                                     <Client key={client.socketId} username={client.username} />
                                 )

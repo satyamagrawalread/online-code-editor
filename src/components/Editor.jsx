@@ -25,10 +25,10 @@ function Editor({ mode, socketRef, roomId, onCodeChange }) {
             });
 
             editorRef.current.on('change', (instance, changes) => {
-                console.log('changes', changes);
+                // console.log('changes', changes);
                 const { origin } = changes;
                 const code = instance.getValue();
-                console.log(code);
+                // console.log(code);
                 onCodeChange(mode, code);
                 if (origin !== 'setValue') {
                     socketRef.current.emit(ACTIONS.CODE_CHANGE, {
@@ -48,9 +48,9 @@ function Editor({ mode, socketRef, roomId, onCodeChange }) {
     useEffect(() => {
         if (socketRef.current) {
             socketRef.current.on(ACTIONS.CODE_CHANGE, (value) => {
-                console.log(value['code']);
-                console.log('line50', value['mode']);
-                if (value['mode']==mode && value['code'] !== null) {
+                // console.log(value['code']);
+                // console.log('line50', value['mode']);
+                if (value['mode']==mode && value['code']) {
                     editorRef.current.setValue(value['code']);
                 }
             })

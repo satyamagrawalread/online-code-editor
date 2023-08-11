@@ -43,7 +43,7 @@ function getAllConnectedClients(roomId) {
 io.on('connection', socket => {
     console.log('socket connected', socket.id);
     socket.on(ACTIONS.JOIN, ({roomId, username}) => {
-        console.log('Indside join', roomId, username);
+        console.log('Inside join', roomId, username);
         userSocketMap[socket.id] = username;
         socket.join(roomId);
         const clients = getAllConnectedClients(roomId);
@@ -61,7 +61,7 @@ io.on('connection', socket => {
         socket.in(roomId).emit(ACTIONS.CODE_CHANGE, {
             socketId: socket.id,
             mode,
-            'code': code,
+            code,
         });
     })
     socket.on(ACTIONS.SYNC_CODE, ({mode, code, socketId}) => {
