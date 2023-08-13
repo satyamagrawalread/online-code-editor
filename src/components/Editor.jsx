@@ -2,14 +2,15 @@ import React, { useEffect, useRef } from 'react'
 import Codemirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/dracula.css';
-import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/xml/xml';
 import 'codemirror/addon/edit/closetag';
 import 'codemirror/addon/edit/closebrackets';
 import ACTIONS from '../Actions';
+import { AiOutlineCloseSquare } from 'react-icons/ai';
 
-function Editor({ mode, socketRef, roomId, onCodeChange }) {
+function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsCollapsed }) {
     const editorRef = useRef(null);
     useEffect(() => {
         async function init() {
@@ -61,9 +62,24 @@ function Editor({ mode, socketRef, roomId, onCodeChange }) {
         }
     }, [socketRef.current])
 
+    const removeLanguage = () => {
+        console.log(mode, isCollapsed[mode]);
+        if(isCollapsed[mode]==false) {
+            setIsCollapsed(prevState => ({
+                ...prevState,
+                [mode]: !prevState[mode]
+            }));
+            console.log(mode, isCollapsed[mode]);
+        }
+    }
+
+
     return (
-        <div className={mode}>
-            <div className={`editorHeading-${mode}`}>{mode}</div>
+        <div className={`${mode} ${isCollapsed[mode] ? `collapsed-${mode}` : ''}`}>
+            <div className={`editorHeading-${mode}`}>
+                <span>{mode}</span>
+                <AiOutlineCloseSquare style={{alignItems: 'center', fontSize: '30px'}} onClick={removeLanguage} />
+            </div>
             <textarea id={`${mode}-realTimeEditor`}></textarea>
         </div>
     )

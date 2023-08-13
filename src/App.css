@@ -92,7 +92,7 @@ footer a {
 
 .mainWrap {
   display: grid;
-  grid-template-columns: 230px 1fr;  /* 1fr -> takes remaining space */
+  grid-template-columns: auto 1fr;  /* 1fr -> takes remaining space */
   /* height: calc(100vh - 30px); */
   height: calc(100vh - 60px);
 }
@@ -100,12 +100,20 @@ footer a {
 .aside {
   
   background-color: #1c1e29;
-  padding: 16px;
+  padding: 0.5px;
   color: #fff;
   display: flex;
   flex-direction: column;
   height: calc(100vh - 60px);
   box-sizing: border-box;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+.show-aside {
+  width: 230px;
+  padding: 16px;
 }
 
 .asideInner {
@@ -167,6 +175,10 @@ footer a {
   font-size: 20px;
   line-height: 1.6;
 }
+
+
+
+
 .editorWrap {
   display: flex;
   flex-direction: column;
@@ -179,10 +191,20 @@ footer a {
   display: grid;
   grid-template-rows: 30px 1fr;
 }
+.collapsed-xml, .collapsed-css, .collapsed-javascript {
+  display: none;
+  /*width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease; */
+  /* display: none; */
+}
 .editorHeading-xml, .editorHeading-css, .editorHeading-javascript {
   height: 30px;
   font-weight: bold;
   padding-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .editorHeading-xml {
   background-color: rgb(215, 38, 38);

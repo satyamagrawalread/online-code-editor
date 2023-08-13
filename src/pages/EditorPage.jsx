@@ -6,7 +6,7 @@ import ACTIONS from '../Actions';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import MenuIcon from "@mui/icons-material/Menu";
-import { Javascript } from '@mui/icons-material';
+// import { Javascript } from '@mui/icons-material';
 // const backend_url = import.meta.env.VITE_APP_BACKEND_URL;
 
 
@@ -19,13 +19,19 @@ function EditorPage() {
     const {roomId} = useParams();
     const [clients, setClients] = useState(null);
     const [srcCode, setSrcCode] = useState('');
+    const [isAsideVisible, setIsAsideVisible] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState({
+        'xml': false,
+        'css': false,
+        'javascript': false,
+    })
 
     useEffect(() => {
         const backend_url = import.meta.env.VITE_APP_BACKEND_URL;
         // console.log(backend_url)
         const init = async () => {
             socketRef.current = await initSocket(backend_url);
-            // console.log('SocketRef', socketRef.current);
+            console.log('SocketRef', socketRef.current);
             socketRef.current.on('connect_error', (err) => handleErrors(err));
             socketRef.current.on('connect_failed', (err) => handleErrors(err));
 
@@ -105,17 +111,58 @@ function EditorPage() {
         <html>
         <body>${codeRef.current['xml']}</body>
         <style>${codeRef.current['css']}</style>
-        <script>${codeRef.current['javascript']}</script>
+        <script>
+          ${codeRef.current['javascript']}
+        </script>
         </html>
         `;
         setSrcCode(tempSrcCode);
-
     }
+    // const runCode = () => {
+    //     // const encodedJsCode = encodeURIComponent(codeRef.current['javascript']);
+    //     const encodedJsCode = encodeURIComponent(codeRef.current['javascript']);
+    //     const tempSrcCode = `
+    //         <html>
+    //         <body>${codeRef.current['xml']}</body>
+    //         <style>${codeRef.current['css']}</style>
+    //         <script>
+    //           // Decoding and embedding the JavaScript code
+    //           try {
+    //             var decodedJsCode = decodeURIComponent("${encodedJsCode}");
+    //             ${encodedJsCode}
+    //           } catch (error) {
+    //             console.error("Error in JavaScript code:", error);
+    //           }
+    //         </script>
+    //         </html>
+    //     `;
+    //     setSrcCode(tempSrcCode);
+    // };
     const onCodeChange = (mode, code) => {
         codeRef.current[mode] = code;
         // console.log('line102', codeRef.current);
         runCode();
     }
+
+    const handleMouseEnter = () => {
+        setIsAsideVisible(true);
+    };
+    
+    const handleMouseLeave = () => {
+        setIsAsideVisible(false);
+    };
+
+    const handleLanguageChange = (event) => {
+        const selectedLanguage = event.target.value;
+        console.log(selectedLanguage);
+        if(isCollapsed[selectedLanguage]) {
+            setIsCollapsed(prevState => ({
+                ...prevState,
+                [selectedLanguage]: !prevState[selectedLanguage]
+            }));
+            
+        }
+    };
 
     if(!location.state) {
         <Navigate />
@@ -123,9 +170,18 @@ function EditorPage() {
 
     return (
         <>
-            <MenuIcon sx={{height: '30px', color: 'white'}} />
+            <div>
+            {/* <MenuIcon sx={{height: '30px', color: 'white'}} /> */}
+            {/* <label style={{color: 'white'}} for="cars">Select Language</label> */}
+
+            <select name="cars" id="cars" onClick={handleLanguageChange}>
+            <option value="xml">XML</option>
+            <option value="css">CSS</option>
+            <option value="javascript">JS</option>
+            </select>
+            </div>
             <div className="mainWrap">
-                <div className="aside">
+                <div className={`aside ${isAsideVisible ? 'show-aside' : ''}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                     <div className="asideInner">
                         <div className="logo">
                             <img 
@@ -149,9 +205,9 @@ function EditorPage() {
                 </div>
                 <div className="editorWrap">
                     <div className="inputWrap">
-                        <Editor mode={'xml'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} />
-                        <Editor mode={'css'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} />
-                        <Editor mode={'javascript'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} />
+                        <Editor mode={'xml'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                        <Editor mode={'css'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                        <Editor mode={'javascript'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
                         
                     </div>
                     <div className="outputWrap">
