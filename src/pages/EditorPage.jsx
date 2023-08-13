@@ -152,6 +152,10 @@ function EditorPage() {
         setIsAsideVisible(false);
     };
 
+    const handleAside = () => {
+        setIsAsideVisible(!isAsideVisible);
+    }
+
     const handleLanguageChange = (selectedLanguage) => {
         // const selectedLanguage = event.target.value;
         console.log(selectedLanguage);
@@ -171,7 +175,7 @@ function EditorPage() {
     return (
         <>
             <div>
-            <MenuIcon sx={{height: '30px', color: 'white'}} onClick={handleMouseEnter} />
+            <MenuIcon sx={{height: '30px', color: 'white'}} onClick={handleAside} />
             {/* <label style={{color: 'white'}} for="cars">Select Language</label> */}
 
             {/* <select name="cars" id="cars" onClick={handleLanguageChange}>
