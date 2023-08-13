@@ -152,8 +152,8 @@ function EditorPage() {
         setIsAsideVisible(false);
     };
 
-    const handleLanguageChange = (event) => {
-        const selectedLanguage = event.target.value;
+    const handleLanguageChange = (selectedLanguage) => {
+        // const selectedLanguage = event.target.value;
         console.log(selectedLanguage);
         if(isCollapsed[selectedLanguage]) {
             setIsCollapsed(prevState => ({
@@ -171,14 +171,23 @@ function EditorPage() {
     return (
         <>
             <div>
-            {/* <MenuIcon sx={{height: '30px', color: 'white'}} /> */}
+            <MenuIcon sx={{height: '30px', color: 'white'}} onClick={handleMouseEnter} />
             {/* <label style={{color: 'white'}} for="cars">Select Language</label> */}
 
-            <select name="cars" id="cars" onClick={handleLanguageChange}>
+            {/* <select name="cars" id="cars" onClick={handleLanguageChange}>
             <option value="xml">XML</option>
             <option value="css">CSS</option>
             <option value="javascript">JS</option>
-            </select>
+            </select> */}
+            <div className="dropdown">
+                <button className="dropbtn">Select Language</button>
+                <div className="dropdown-content">
+                    {isCollapsed.xml && <a onClick={() => handleLanguageChange('xml')}>XML</a>}
+                    {isCollapsed.css && <a onClick={() => handleLanguageChange('css')}>CSS</a>}
+                    {isCollapsed.javascript && <a onClick={() => handleLanguageChange('javascript')}>JS</a>}
+                </div>
+
+            </div>
             </div>
             <div className="mainWrap">
                 <div className={`aside ${isAsideVisible ? 'show-aside' : ''}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
