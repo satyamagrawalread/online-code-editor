@@ -3,6 +3,7 @@ import Client from '../components/Client';
 import Editor from '../components/Editor';
 import { initSocket } from '../socket';
 import ACTIONS from '../Actions';
+import Themes from '../Themes';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import MenuIcon from "@mui/icons-material/Menu";
@@ -20,6 +21,7 @@ function EditorPage() {
     const [clients, setClients] = useState(null);
     const [srcCode, setSrcCode] = useState('');
     const [isAsideVisible, setIsAsideVisible] = useState(false);
+    const [selectedTheme, setSelectedTheme] = useState('dracula');
     const [isCollapsed, setIsCollapsed] = useState({
         'xml': false,
         'css': false,
@@ -192,6 +194,20 @@ function EditorPage() {
                 </div>
 
             </div>
+            <div className="dropdown">
+                <button className="dropbtn">Select Theme</button>
+                <div className="dropdown-content">
+                    {Object.entries(Themes).map(([themeId, themeName]) => {
+                        return (
+                            <a key={themeId} onClick={() => {
+                                // console.log(theme);
+                                setSelectedTheme(themeName);
+                                console.log(selectedTheme);
+                            }}>{themeName}</a>
+                        )
+                    })}
+                </div>
+            </div>
             </div>
             <div className="mainWrap">
                 <div className={`aside ${isAsideVisible ? 'show-aside' : ''}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -218,9 +234,9 @@ function EditorPage() {
                 </div>
                 <div className="editorWrap">
                     <div className="inputWrap">
-                        <Editor mode={'xml'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-                        <Editor mode={'css'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-                        <Editor mode={'javascript'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                        <Editor mode={'xml'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} />
+                        <Editor mode={'css'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} />
+                        <Editor mode={'javascript'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} />
                         
                     </div>
                     <div className="outputWrap">

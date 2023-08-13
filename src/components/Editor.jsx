@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import Codemirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/dracula.css';
+// import 'codemirror/theme/dracula.css';
+// import 'codemirror/theme/3024-day.css';
+// import 'codemirror/theme/3024-night.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/xml/xml';
@@ -10,7 +12,7 @@ import 'codemirror/addon/edit/closebrackets';
 import ACTIONS from '../Actions';
 import { AiOutlineCloseSquare } from 'react-icons/ai';
 
-function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsCollapsed }) {
+function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsCollapsed, selectedTheme }) {
     const editorRef = useRef(null);
     useEffect(() => {
         async function init() {
@@ -19,7 +21,7 @@ function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsColla
                     name: mode,
                     json: true
                 },
-                theme: 'dracula',
+                theme: selectedTheme,
                 autoCloseTags: true,
                 autoCloseBrackets: true,
                 lineNumbers: true,
@@ -72,6 +74,27 @@ function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsColla
             console.log(mode, isCollapsed[mode]);
         }
     }
+
+    useEffect(() => {
+        if (editorRef.current) {
+            const editorWrapper = editorRef.current.getWrapperElement();
+            
+            // Remove existing theme classes
+            editorWrapper.classList.remove();
+    
+            // Add new theme classes
+            editorWrapper.classList.add(`cm-s-${selectedTheme}`);
+            // if (selectedTheme === "newThemeName") {
+            //     editorWrapper.classList.add("cm-s-newThemeName");
+            // } else if (selectedTheme === "anotherTheme") {
+            //     editorWrapper.classList.add("cm-s-anotherTheme");
+            // }
+    
+            // Update the editor theme option (optional)
+            editorRef.current.setOption("theme", selectedTheme);
+        }
+        // console.log('line78', editorRef.current.theme);
+    }, [selectedTheme])
 
 
     return (
