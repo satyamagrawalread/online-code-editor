@@ -225,12 +225,16 @@ footer a {
   height: 70vh;
   flex-wrap: nowrap;
   justify-content: space-between;
+  resize: vertical;
+  overflow: auto;
   /* background-color: red; */
 }
 
 .outputWrap {
   background-color: white;
   height: 30vh;
+  resize: vertical;
+  overflow: auto;
 }
 
 .dropbtn {
@@ -245,6 +249,7 @@ footer a {
 .dropdown {
   position: relative;
   display: inline-block;
+  margin: 5px 10px;
 }
 
 .dropdown-content {

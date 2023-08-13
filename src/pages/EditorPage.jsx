@@ -7,6 +7,7 @@ import Themes from '../Themes';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import MenuIcon from "@mui/icons-material/Menu";
+import { Padding } from '@mui/icons-material';
 // import { Javascript } from '@mui/icons-material';
 // const backend_url = import.meta.env.VITE_APP_BACKEND_URL;
 
@@ -177,7 +178,7 @@ function EditorPage() {
     return (
         <>
             <div>
-            <MenuIcon sx={{height: '30px', color: 'white'}} onClick={handleAside} />
+            <MenuIcon sx={{height: '30px', color: 'white', margin: 'auto 10px'}} onClick={handleAside} />
             {/* <label style={{color: 'white'}} for="cars">Select Language</label> */}
 
             {/* <select name="cars" id="cars" onClick={handleLanguageChange}>
