@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Client from '../components/Client';
 import Editor from '../components/Editor';
 import { initSocket } from '../socket';
@@ -18,11 +18,12 @@ function EditorPage() {
     const location = useLocation();
     const codeRef = useRef({});
     const reactNavigator = useNavigate();
-    const {roomId} = useParams();
+    const { roomId } = useParams();
     const [clients, setClients] = useState(null);
     const [srcCode, setSrcCode] = useState('');
     const [isAsideVisible, setIsAsideVisible] = useState(false);
     const [selectedTheme, setSelectedTheme] = useState('dracula');
+    const [isLineNumberEnabled, setIsLineNumberEnabled] = useState(true);
     const [isCollapsed, setIsCollapsed] = useState({
         'xml': false,
         'css': false,
@@ -50,8 +51,8 @@ function EditorPage() {
             });
 
             //Listening for joined event
-            socketRef.current.on(ACTIONS.JOINED, ({clients, username, socketId}) => {
-                if(username == location.state?.username) {
+            socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
+                if (username == location.state?.username) {
                     toast.success('Welcome to the room');
                 }
                 else {
@@ -59,7 +60,7 @@ function EditorPage() {
                 }
                 // console.log('line 51', clients);
                 setClients(clients);
-                
+
                 socketRef.current.emit(ACTIONS.SYNC_CODE, {
                     mode: 'xml',
                     code: codeRef.current['xml'],
@@ -78,7 +79,7 @@ function EditorPage() {
             });
 
             //Listening for someone disconnected event
-            socketRef.current.on(ACTIONS.DISCONNECTED, ({socketId, username}) => {
+            socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
                 toast.success(`${username} left the room`);
                 setClients((prev) => {
                     return prev.filter(client => client.socketId !== socketId);
@@ -96,7 +97,7 @@ function EditorPage() {
     //     console.log('line 86', clients);
     // }, [clients])
 
-    const copyRoomId = async() => {
+    const copyRoomId = async () => {
         try {
             await navigator.clipboard.writeText(roomId);
             toast.success('Room ID copied to your clipboard');
@@ -150,7 +151,7 @@ function EditorPage() {
     const handleMouseEnter = () => {
         setIsAsideVisible(true);
     };
-    
+
     const handleMouseLeave = () => {
         setIsAsideVisible(false);
     };
@@ -162,62 +163,63 @@ function EditorPage() {
     const handleLanguageChange = (selectedLanguage) => {
         // const selectedLanguage = event.target.value;
         console.log(selectedLanguage);
-        if(isCollapsed[selectedLanguage]) {
+        if (isCollapsed[selectedLanguage]) {
             setIsCollapsed(prevState => ({
                 ...prevState,
                 [selectedLanguage]: !prevState[selectedLanguage]
             }));
-            
+
         }
     };
 
-    if(!location.state) {
+    if (!location.state) {
         <Navigate />
     }
 
     return (
         <>
             <div>
-            <MenuIcon sx={{height: '30px', color: 'white', margin: 'auto 10px'}} onClick={handleAside} />
-            {/* <label style={{color: 'white'}} for="cars">Select Language</label> */}
+                <MenuIcon sx={{ height: '30px', color: 'white', margin: 'auto 10px' }} onClick={handleAside} />
+                {/* <label style={{color: 'white'}} for="cars">Select Language</label> */}
 
-            {/* <select name="cars" id="cars" onClick={handleLanguageChange}>
+                {/* <select name="cars" id="cars" onClick={handleLanguageChange}>
             <option value="xml">XML</option>
             <option value="css">CSS</option>
             <option value="javascript">JS</option>
             </select> */}
-            <div className="dropdown">
-                <button className="dropbtn">Select Language</button>
-                <div className="dropdown-content">
-                    {isCollapsed.xml && <a onClick={() => handleLanguageChange('xml')}>XML</a>}
-                    {isCollapsed.css && <a onClick={() => handleLanguageChange('css')}>CSS</a>}
-                    {isCollapsed.javascript && <a onClick={() => handleLanguageChange('javascript')}>JS</a>}
-                </div>
+                <div className="dropdown">
+                    <button className="dropbtn">Select Language</button>
+                    <div className="dropdown-content">
+                        {isCollapsed.xml && <a onClick={() => handleLanguageChange('xml')}>XML</a>}
+                        {isCollapsed.css && <a onClick={() => handleLanguageChange('css')}>CSS</a>}
+                        {isCollapsed.javascript && <a onClick={() => handleLanguageChange('javascript')}>JS</a>}
+                    </div>
 
-            </div>
-            <div className="dropdown">
-                <button className="dropbtn">Select Theme</button>
-                <div className="dropdown-content">
-                    {Object.entries(Themes).map(([themeId, themeName]) => {
-                        return (
-                            <a key={themeId} onClick={() => {
-                                // console.log(theme);
-                                setSelectedTheme(themeName);
-                                console.log(selectedTheme);
-                            }}>{themeName}</a>
-                        )
-                    })}
                 </div>
-            </div>
+                <div className="dropdown">
+                    <button className="dropbtn">Select Theme</button>
+                    <div className="dropdown-content">
+                        {Object.entries(Themes).map(([themeId, themeName]) => {
+                            return (
+                                <a key={themeId} onClick={() => {
+                                    // console.log(theme);
+                                    setSelectedTheme(themeName);
+                                    console.log(selectedTheme);
+                                }}>{themeName}</a>
+                            )
+                        })}
+                    </div>
+                </div>
+                <button className={`lineNumber ${isLineNumberEnabled ? 'enabled' : 'disabled'}`} onClick={() => setIsLineNumberEnabled(!isLineNumberEnabled)}>{`${isLineNumberEnabled ? 'Disable' : 'Enable'} Line Number`}</button>
             </div>
             <div className="mainWrap">
                 <div className={`aside ${isAsideVisible ? 'show-aside' : ''}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                     <div className="asideInner">
                         <div className="logo">
-                            <img 
-                                src="/code-logo.jpg" 
-                                alt="code logo image" 
-                                className="logoImage" 
+                            <img
+                                src="/code-logo.jpg"
+                                alt="code logo image"
+                                className="logoImage"
                             />
                         </div>
                         <h3>Connected</h3>
@@ -235,10 +237,10 @@ function EditorPage() {
                 </div>
                 <div className="editorWrap">
                     <div className="inputWrap">
-                        <Editor mode={'xml'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} />
-                        <Editor mode={'css'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} />
-                        <Editor mode={'javascript'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} />
-                        
+                        <Editor mode={'xml'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} isLineNumberEnabled={isLineNumberEnabled} />
+                        <Editor mode={'css'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} isLineNumberEnabled={isLineNumberEnabled} />
+                        <Editor mode={'javascript'} socketRef={socketRef} roomId={roomId} onCodeChange={onCodeChange} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} selectedTheme={selectedTheme} isLineNumberEnabled={isLineNumberEnabled} />
+
                     </div>
                     <div className="outputWrap">
                         <iframe srcDoc={srcCode} title='Output' sandbox='allow-scripts' width='100%' height='100%' />

@@ -12,7 +12,7 @@ import 'codemirror/addon/edit/closebrackets';
 import ACTIONS from '../Actions';
 import { AiOutlineCloseSquare } from 'react-icons/ai';
 
-function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsCollapsed, selectedTheme }) {
+function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsCollapsed, selectedTheme, isLineNumberEnabled }) {
     const editorRef = useRef(null);
     useEffect(() => {
         async function init() {
@@ -24,7 +24,8 @@ function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsColla
                 theme: selectedTheme,
                 autoCloseTags: true,
                 autoCloseBrackets: true,
-                lineNumbers: true,
+                lineNumbers: isLineNumberEnabled,
+                
             });
 
             editorRef.current.on('change', (instance, changes) => {
@@ -53,7 +54,7 @@ function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsColla
             socketRef.current.on(ACTIONS.CODE_CHANGE, (value) => {
                 // console.log(value['code']);
                 // console.log('line50', value['mode']);
-                if (value['mode']==mode && value['code']) {
+                if (value['mode']==mode && value['code']!=null) {
                     editorRef.current.setValue(value['code']);
                 }
             })
@@ -95,6 +96,12 @@ function Editor({ mode, socketRef, roomId, onCodeChange, isCollapsed, setIsColla
         }
         // console.log('line78', editorRef.current.theme);
     }, [selectedTheme])
+
+    useEffect(() => {
+        editorRef.current.setOption("lineNumbers", isLineNumberEnabled);
+    }, [isLineNumberEnabled]);
+
+
 
 
     return (

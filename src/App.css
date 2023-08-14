@@ -280,6 +280,23 @@ footer a {
   background-color: #3e8e41;
 }
 
+.lineNumber {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin: 5px 10px;
+}
+
+.enabled {
+  background-color: #336933;
+}
+.disabled {
+  background-color: #4CAF50;
+
+
+}
 
 
 
