@@ -41,7 +41,9 @@ function EditorPage() {
 
             function handleErrors(e) {
                 console.log('Socket error', e);
-                toast.error('Socket connection failed, try again later.');
+                toast.error('Socket connection failed. Server is Starting, try again.', {
+                    duration: 12000,
+                });
                 reactNavigator('/');
             }
 
